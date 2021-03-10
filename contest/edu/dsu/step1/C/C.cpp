@@ -29,16 +29,16 @@ int p[N*2], val[N*2];
 int idx;
 
 void uinon(int a, int b) {
-    p[a] = ++idx;
-    p[b] = p[a];
+    p[a] = ++idx; //移动主节点，此时新的集合的分数是0（因为必须保证后面加入的不会多加前面进入的分
+    p[b] = p[a]; // 惰性的路径压缩比单纯的记录子节点全部遍历要快很多（因为他会对集合进行加
 }
 
 int find(int a) {
     if (a != p[a]) {
         int t = find(p[a]);
-        if (p[a] != p[p[a]])
-            val[a] += val[p[a]];
-        p[a] = t;
+        if (p[a] != p[p[a]])//发现主节点有变化
+            val[a] += val[p[a]]; // 把没合并之前的val加到现在的分数中
+        p[a] = t; //注意上述操作，需要在此合并之前
         return t;
     } else {
         return a;
